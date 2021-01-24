@@ -24,4 +24,6 @@ public class Card {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+
 }

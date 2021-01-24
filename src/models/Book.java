@@ -35,4 +35,12 @@ public class Book {
         this.genre = genre;
     }
 
+    @Override
+    public String toString() {
+        return  nameBook + '\n' +
+                 author +'\n' +
+                 genre;
+    }
+
+
 }
