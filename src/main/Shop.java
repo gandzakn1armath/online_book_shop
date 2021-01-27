@@ -1,8 +1,8 @@
 package main;
 
-import datebase.AuthorData;
-import datebase.BookData;
-import datebase.GenereData;
+import local_datebase.AuthorData;
+import local_datebase.BookData;
+import local_datebase.GenereData;
 import models.Author;
 import models.Book;
 import models.Genere;
@@ -35,7 +35,7 @@ public class Shop {
 
     }
     public static void printSection(){
-        System.out.println("Բարի գալուստ <<ԳՐՔԵՐԻ ԱՇԽԱՐՀ>> գրախանութ "+'\n'+
+        System.out.println("Բարի գալուստ <<ԳՐՔԵՐԻ ԱՇԽԱՐՀ>> "+'\n'+
                 "1․Որոնում " +'\n'+
                 "2․Տեսակներ"+'\n'+
                 "3․Հեղինակների անուններ"+'\n'+

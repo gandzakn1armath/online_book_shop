@@ -2,9 +2,9 @@ package models;
 
 public class Product {
     private Book book;
-    private  Card price;
+    private  float price;
 
-    public Product(Book book, Card price) {
+    public Product(Book book, float price) {
         this.book = book;
         this.price = price;
     }
@@ -17,11 +17,11 @@ public class Product {
         this.book = book;
     }
 
-    public Card getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Card price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 }
