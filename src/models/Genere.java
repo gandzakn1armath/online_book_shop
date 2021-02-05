@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Genere {
     private  String genere;
 
@@ -20,4 +22,18 @@ public class Genere {
         return  genere ;
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genere genere1 = (Genere) o;
+        return Objects.equals(genere, genere1.genere);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(genere);
+    }
 }
+
