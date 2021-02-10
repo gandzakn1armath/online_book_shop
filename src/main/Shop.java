@@ -44,61 +44,107 @@ public class Shop {
                 "Ընտրել բաժինը։ (Օր․՝ 1 + Enter)\n");
     }
 
-   public static void askForNameBook(){
+   public static void askForBook(ArrayList<Book> books){
        Scanner scanner = new Scanner(System.in);
        int answer = scanner.nextInt();
-       ArrayList<Book> bookData = getBookData();
-       switch (answer){
-           case 1:
-               System.out.println(bookData.get(answer-1));
-       }
+       Book book = books.get(answer - 1);
+       float price = book.getPrice();
+       System.out.println("======== " + book.getNameBook() + " =========");
+       System.out.println(book);
+       System.out.println("Գինը "+price + " դրամ\n");
+
+
+
    }
 
 
     public static void printGeneres() {
         System.out.println(" ========  Տեսակներ  ========");
-        ArrayList<Genere> genereData = getGenereData();
+        ArrayList<Genere> genereData = getGenereList();
         for (int i = 0; i < genereData.size(); i++) {
             System.out.println((i + 1) + "." + genereData.get(i).getGenere());
         }
+
         System.out.println("Ընտրել տեսակ։\n");
         Scanner scanner = new Scanner(System.in);
         int answer = scanner.nextInt();
-        if (answer >= 1 && answer <= genereData.size()) {
-            System.out.println("========" + genereData.get(answer - 1) + "=========");
+        int count = 0;
+        if (answer >0 && answer <= genereData.size()) {
             Genere genere = genereData.get(answer - 1);
-            ArrayList<Book> bookData = getBookData();
+            System.out.println("======== " + genere + " =========");
+            ArrayList<Book> bookData = getBookList();
+            ArrayList<Book>  books = new ArrayList<>();
             for (int i = 0; i < bookData.size(); i++) {
                 if (bookData.get(i).getGenre().equals(genere)) {
-                   System.out.println(bookData.get(i).getNameBook());
-                   askForNameBook();
-
+                    count = count+1;
+                   System.out.println(count + "." + bookData.get(i).getNameBook());
+                   books.add(bookData.get(i));
             }
 
         }
+            askForBook(books);
+            System.out.println("Գործողություններ" +
+                    '\n' + "1.Ավելացնել Արկղ" +
+                    '\n' + "2.Վերադառնալ" +
+                    '\n' + "3.Գնել" );
+            Scanner scanner1 = new Scanner(System.in);
+            int answer1 = scanner1.nextInt();
+            switch (answer1) {
+                case 1:
+                    break;
+                case 2:
+                    printGeneres();
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Ընտրեք բաժինը նորից");
+            }
+
     }
     }
 
     public static void printAuthors() {
         System.out.println(" ========  Հեղինակների անուններ  ========");
-        ArrayList<Author> authorData = getAuthorData();
+        ArrayList<Author> authorData = getAuthorList();
         for (int j = 0; j < authorData.size(); j++) {
             System.out.println((j + 1) + "." + authorData.get(j).getName());
         }
         System.out.println("Ընտրել հեղինակի անուն");
         Scanner scanner = new Scanner(System.in);
         int answer = scanner.nextInt();
+        int count = 0;
         if (answer >= 1 && answer <= authorData.size()) {
             Author author = authorData.get(answer - 1);
-            System.out.println("========" + author + "========");
-            ArrayList<Book> bookData = getBookData();
+            System.out.println("======== " + author + " ========");
+            ArrayList<Book> bookData = getBookList();
+            ArrayList<Book> authors= new ArrayList<>();
             for (int i = 0; i < bookData.size(); i++) {
                 if (bookData.get(i).getAuthor().equals(author)) {
-                    System.out.println(bookData.get(i));
+                    count = count+1;
+                    System.out.println(count + "." +bookData.get(i).getNameBook());
+                    authors.add(bookData.get(i));
                 }
+            }
+            askForBook(authors);
+            System.out.println("Գործողություններ\n" +
+                    '\n' + "1.Ավելացնել Արկղ" +
+                    '\n' + "2.Վերադառնալ" +
+                    '\n' + "3.Գնել" );
+            Scanner scanner1 = new Scanner(System.in);
+            int answer1 = scanner1.nextInt();
+            switch (answer1) {
+                case 1:
+                    break;
+                case 2:
+                    printGeneres();
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Ընտրեք բաժինը նորից");
             }
 
         }
     }
 }
-
