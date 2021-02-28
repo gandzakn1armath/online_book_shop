@@ -37,6 +37,6 @@ public class Contact {
 
     @Override
     public String toString() {
-        return "Կոնտակտ" + '\n' + name + '\n' + phoneNumber + '\n' + email;
+        return "Կոնտակտ`" + '\n' + name + '\n' + phoneNumber + '\n' + email;
     }
 }

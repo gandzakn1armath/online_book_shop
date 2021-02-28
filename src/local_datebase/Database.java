@@ -30,7 +30,7 @@ public class Database {
         return  books;
     }
     public static Contact getContact(){
-        return new Contact("Սպարտակ Եղիազարյան", "+79855015566", "frunze@book.com");
+        return new Contact("Աբգար Ենոքյան", "+79855015566", "abo@book.com");
 
     }
     public static ArrayList<Genere> getGenereList(){
