@@ -1,10 +1,8 @@
 package main;
 
-import com.sun.security.jgss.GSSUtil;
 import local_datebase.Database;
 import models.Author;
 import models.Book;
-import models.Contact;
 import models.Genere;
 
 import java.util.ArrayList;
@@ -20,6 +18,10 @@ public class Shop {
         System.out.println("Բարի գալուստ <<ԳՐՔԵՐԻ ԱՇԽԱՐՀ>> " + '\n');
         printSection();
     }
+    public  static int getScanner(){
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
 
     public static void printSection() {
         while (true) {
@@ -30,8 +32,7 @@ public class Shop {
                             "4․Զամբյուղ" + '\n' +
                             "5․Հետադարձ կապ" + '\n' +
                             "Ընտրել բաժինը։ (Օր․՝ 1 + Enter)\n");
-            Scanner scanner = new Scanner(System.in);
-            int answer = scanner.nextInt();
+            int answer = getScanner();
             switch (answer) {
                 case 1:
                     break;
@@ -42,7 +43,7 @@ public class Shop {
                     printAuthors();
                     break;
                 case 4:
-
+                    basket();
                     break;
                 case 5:
                     contact();
@@ -54,37 +55,60 @@ public class Shop {
             }
         }
     }
+    public static  void basket() {
+        while (true) {
+            System.out.println(" ========  ԶԱՄԲՅՈՒՂ  ========");
+            int allPrice = 0;
+            for (int i = 0; i < basketList.size(); i++) {
+                System.out.print((i + 1) + "." + basketList.get(i).getNameBook() + '\n');
+                int price=(int) basketList.get(i).getPrice();
+                allPrice = allPrice + price;
+            }
+            System.out.println( "Ընդհանութ արժեքը՝ " + allPrice +"դրամ" + '\n');
+            System.out.println("Գործողություններ" +
+                    '\n' + "1.Գնել(մուտքագրել ընդհանուր արժեքը)" +
+                    '\n' + "2.Ջնջել ըստ համարի(Օր․՝ 5)" +
+                    '\n' + "Հետ գնալ(սեղմեք 0)");
+
+            int answer = getScanner();
+            answer = answer -1;
+            if(answer<=basketList.size()&& answer>0){
+                switch (answer){
+                    case 1:
+                        basketList.remove(answer);
+                        break;
+                    case 2:
+                        buy();
+                        break;
+
+                }
+                if(answer == 0){
+                    break;
+                }
+
+            }
+
+
+
+            }
+        }
+
 
 
     public static void addBasket(Book book) {
         if (basketList.contains(book)) {
-            System.out.println("Գիրքն արդեն ավելացված է զամբյուղում");
+            System.out.println("Գիրքն արդեն ավելացված է զամբյուղում" + '\n' + "Հետ գնալ(սեղմեք 0)");
+
         } else {
             basketList.add(book);
-            System.out.println("Գիրքն ավելացվեց զամբյուղում");
+            System.out.println("Գիրքն ավելացվեց զամբյուղում"  + '\n' + "Հետ գնալ(սեղմեք 0)");
         }
     }
 
-    public static void buy(Book book) {
-        System.out.println("Շնորհավորում ենք,դուք գնել եք <<" + book.getNameBook() + ">> գիրքը։\n");
-        printActions();
-        Scanner scanner1 = new Scanner(System.in);
-        int answer1 = scanner1.nextInt();
-        switch (answer1) {
-            case 1:
-                addBasket(book);
-                break;
-            case 2:
-                printGeneres();
-                break;
-            case 3:
-                buy(book);
-                break;
-            default:
-                System.out.println("Ընտրեք գործողությունը նորից");
-                break;
-        }
 
+    public static void buy() {
+        System.out.println("Շնորհավորում ենք,դուք գնել եք <<");
+        printSection();
     }
 
 
@@ -99,8 +123,7 @@ public class Shop {
     public static void askForBook(ArrayList<Book> books) {
         System.out.println("Հետ գնալ(սեղմեք 0)\n");
         while (true) {
-            Scanner scanner = new Scanner(System.in);
-            int answer = scanner.nextInt();
+            int answer = getScanner();
             if (answer == 0) {
                 break;
             }
@@ -110,7 +133,7 @@ public class Shop {
             System.out.println(book);
             System.out.println("Գինը " + price + " դրամ\n");
             printActions();
-            answer = scanner.nextInt();
+            answer = getScanner();
 
             if (answer == 1) {
                 addBasket(book);
@@ -124,8 +147,7 @@ public class Shop {
         while (true) {
             System.out.println(Database.getContact());
             System.out.println("\nՀետ գնալ(սեղմեք 0)\n");
-            Scanner scanner = new Scanner(System.in);
-            int answer = scanner.nextInt();
+            int answer = getScanner();
             if (answer == 0) {
                 break;
             }
@@ -143,8 +165,7 @@ public class Shop {
 
             System.out.println("Ընտրել տեսակ։");
             System.out.println("Հետ գնալ(սեղմեք 0)\n");
-            Scanner scanner = new Scanner(System.in);
-            int answer = scanner.nextInt();
+            int answer = getScanner();
             int count = 0;
             if (answer == 0) {
                 break;
@@ -177,8 +198,7 @@ public class Shop {
             }
             System.out.println("Ընտրել հեղինակի անուն");
             System.out.println("Հետ գնալ(սեղմեք 0)\n");
-            Scanner scanner = new Scanner(System.in);
-            int answer = scanner.nextInt();
+            int answer = getScanner();
             int count = 0;
             if (answer == 0) {
                 break;
@@ -196,23 +216,8 @@ public class Shop {
                     }
                 }
                 askForBook(authors);
-                printActions();
-                Scanner scanner1 = new Scanner(System.in);
-                int answer1 = scanner1.nextInt();
-                switch (answer1) {
-                    case 1:
-                        addBasket(bookData.get(answer));
-                        break;
-                    case 2:
-                        printAuthors();
-                        break;
-                    case 3:
-                        buy(bookData.get(answer));
-                        break;
-                    default:
-                        System.out.println("Ընտրեք գործողությունը նորից");
-                        break;
-                }
+
+
 
             }
         }
