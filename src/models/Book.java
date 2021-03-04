@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Book {
     private String nameBook;
     private Author author;
@@ -44,10 +46,20 @@ public class Book {
 
     @Override
     public String toString() {
-        return  nameBook + '\n' +
-                 author +'\n' +
-                 genre;
+        return   "հեղինակ՝ " + author +'\n' +
+                 "ժանր՝ " +genre;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Float.compare(book.price, price) == 0 && Objects.equals(nameBook, book.nameBook) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameBook, author, genre, price);
+    }
 }

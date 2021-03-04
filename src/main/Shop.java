@@ -18,7 +18,8 @@ public class Shop {
         System.out.println("Բարի գալուստ <<ԳՐՔԵՐԻ ԱՇԽԱՐՀ>> " + '\n');
         printSection();
     }
-    public  static int getScanner(){
+
+    public static int getScanner() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
@@ -31,10 +32,15 @@ public class Shop {
                             "3․Հեղինակների անուններ" + '\n' +
                             "4․Զամբյուղ" + '\n' +
                             "5․Հետադարձ կապ" + '\n' +
+                            "6․Դուրս գալ" + '\n' +
                             "Ընտրել բաժինը։ (Օր․՝ 1 + Enter)\n");
             int answer = getScanner();
+            if (answer == 6) {
+                break;
+            }
             switch (answer) {
                 case 1:
+                    search();
                     break;
                 case 2:
                     printGeneres();
@@ -49,65 +55,67 @@ public class Shop {
                     contact();
                     break;
 
+
                 default:
                     System.out.println("Ընտրեք բաժինը նորից");
                     printSection();
             }
         }
     }
-    public static  void basket() {
+
+    public static void basket() {
         while (true) {
-            System.out.println(" ========  ԶԱՄԲՅՈՒՂ  ========");
-            int allPrice = 0;
-            for (int i = 0; i < basketList.size(); i++) {
-                System.out.print((i + 1) + "." + basketList.get(i).getNameBook() + '\n');
-                int price=(int) basketList.get(i).getPrice();
-                allPrice = allPrice + price;
-            }
-            System.out.println( "Ընդհանութ արժեքը՝ " + allPrice +"դրամ" + '\n');
-            System.out.println("Գործողություններ" +
-                    '\n' + "1.Գնել(մուտքագրել ընդհանուր արժեքը)" +
-                    '\n' + "2.Ջնջել ըստ համարի(Օր․՝ 5)" +
-                    '\n' + "Հետ գնալ(սեղմեք 0)");
-
-            int answer = getScanner();
-            answer = answer -1;
-            if(answer<=basketList.size()&& answer>0){
-                switch (answer){
-                    case 1:
-                        basketList.remove(answer);
-                        break;
-                    case 2:
-                        buy();
-                        break;
-
+            if (basketList.size() == 0) {
+                System.out.println("  Զամբյուղը դատարկ է\n");
+                printSection();
+            } else {
+                System.out.println(" ========  ԶԱՄԲՅՈՒՂ  ========");
+                int allPrice = 0;
+                for (int i = 0; i < basketList.size(); i++) {
+                    System.out.print((i + 1) + "." + basketList.get(i).getNameBook() + '\n');
+                    int price = (int) basketList.get(i).getPrice();
+                    allPrice = allPrice + price;
                 }
-                if(answer == 0){
+                System.out.println("Ընդհանութ արժեքը՝ " + allPrice + "դրամ" + '\n');
+                System.out.println("Գործողություններ" +
+                        '\n' + "  Գնել(մուտքագրել ընդհանուր արժեքը)" +
+                        '\n' + "  Ջնջել ըստ համարի(Օր․՝ 5)" +
+                        '\n' + "  Հետ գնալ(մուտքագրել 0)");
+                int answer = getScanner();
+                if (answer <= basketList.size() && answer > 0) {
+                    basketList.remove(answer - 1);
+                    if (basketList.size() == 0) {
+                        System.out.println("  Զամբյուղը դատարկ է\n");
+                        printSection();
+                        break;
+                    }
+                }
+                if (answer == allPrice) {
+                    buy();
+                } else if (answer == 0) {
                     break;
+                } else {
+                    System.out.println("Դուք մոտքագրել եք սխալ արժեք։ Փորձեք կրկին։");
                 }
-
             }
 
-
-
-            }
-        }
-
-
-
-    public static void addBasket(Book book) {
-        if (basketList.contains(book)) {
-            System.out.println("Գիրքն արդեն ավելացված է զամբյուղում" + '\n' + "Հետ գնալ(սեղմեք 0)");
-
-        } else {
-            basketList.add(book);
-            System.out.println("Գիրքն ավելացվեց զամբյուղում"  + '\n' + "Հետ գնալ(սեղմեք 0)");
         }
     }
 
 
+    public static void addBasket(Book book) {
+        if (basketList.contains(book)) {
+            System.out.println("<<" + book.getNameBook() + ">>" + " արդեն ավելացված է զամբյուղում" + '\n');
+        } else {
+            basketList.add(book);
+            System.out.println("<<" + book.getNameBook() + ">>" + " ավելացվեց զամբյուղում" + '\n');
+        }
+
+    }
+
+
     public static void buy() {
-        System.out.println("Շնորհավորում ենք,դուք գնել եք <<");
+        System.out.println(" ========  ՇՆՈՐՀԱԿԱԼՈՒԹՅՈՒՆ ԳՆՈՒՄԸ ԿԱՏԱՐՎԱԾ Է ========  \n");
         printSection();
     }
 
@@ -115,43 +123,41 @@ public class Shop {
     public static void printActions() {
         System.out.println("Գործողություններ" +
                 '\n' + "1.Ավելացնել Զամբյուղ" +
-                '\n' + "Հետ գնալ(սեղմեք 0)");
+                '\n' + "Հետ գնալ(մուտքագրել 0)");
 
     }
 
 
-    public static void askForBook(ArrayList<Book> books) {
-        System.out.println("Հետ գնալ(սեղմեք 0)\n");
+    public static boolean askForBook(ArrayList<Book> books) {
+        System.out.println("\nՀետ գնալ(մուտքագրել 0)\n");
         while (true) {
             int answer = getScanner();
             if (answer == 0) {
-                break;
+                return false;
             }
             Book book = books.get(answer - 1);
             float price = book.getPrice();
             System.out.println("======== " + book.getNameBook() + " =========");
             System.out.println(book);
-            System.out.println("Գինը " + price + " դրամ\n");
+            System.out.println("Արժեքը՝ " + price + " դրամ\n");
             printActions();
             answer = getScanner();
 
             if (answer == 1) {
                 addBasket(book);
+                break;
             } else if (answer == 0) {
                 break;
             }
         }
+        return true;
     }
 
     public static void contact() {
-        while (true) {
-            System.out.println(Database.getContact());
-            System.out.println("\nՀետ գնալ(սեղմեք 0)\n");
-            int answer = getScanner();
-            if (answer == 0) {
-                break;
-            }
-        }
+        System.out.println(" ========  ՀԵՏԱԴԱՐՁ ԿԱՊ  ========");
+        System.out.println(Database.getContact() + "\n");
+        printSection();
+
     }
 
 
@@ -163,8 +169,8 @@ public class Shop {
                 System.out.println((i + 1) + "." + genereData.get(i).getGenere());
             }
 
-            System.out.println("Ընտրել տեսակ։");
-            System.out.println("Հետ գնալ(սեղմեք 0)\n");
+            System.out.println("\nԸնտրել տեսակ");
+            System.out.println("Հետ գնալ(մուտքագրել 0)\n");
             int answer = getScanner();
             int count = 0;
             if (answer == 0) {
@@ -189,6 +195,43 @@ public class Shop {
         }
     }
 
+    public static void search() {
+        System.out.println("========  Որոնում  ========  ");
+        Scanner scanner = new Scanner(System.in);
+        String keyword = scanner.nextLine();
+        while (true) {
+            ArrayList<Book> bookList = getBookList();
+            ArrayList<Book> searchResult = new ArrayList<>();
+            for (Book book : bookList) {
+                if (equalsBook(book, keyword)) {
+                    searchResult.add(book);
+                    System.out.println(searchResult.size() + "․ " + book.getNameBook());
+                }
+            }
+
+            if (searchResult.size() > 0) {
+                if (!askForBook(searchResult)) {
+                    break;
+                }
+
+            } else {
+                System.out.println("Որոնման արդյունքը չի գտնվել");
+                break;
+            }
+        }
+    }
+
+
+    private static boolean equalsBook(Book book, String keyword) {
+        return equalsText(book.getNameBook(), keyword) ||
+                equalsText(book.getAuthor().getName(), keyword) ||
+                equalsText(book.getGenre().getGenere(), keyword);
+    }
+
+    private static boolean equalsText(String t1, String t2) {
+        return t1.substring(0, Math.min(t2.length(), t1.length())).equalsIgnoreCase(t2);
+    }
+
     public static void printAuthors() {
         while (true) {
             System.out.println(" ========  Հեղինակների անուններ  ========");
@@ -196,8 +239,8 @@ public class Shop {
             for (int j = 0; j < authorData.size(); j++) {
                 System.out.println((j + 1) + "." + authorData.get(j).getName());
             }
-            System.out.println("Ընտրել հեղինակի անուն");
-            System.out.println("Հետ գնալ(սեղմեք 0)\n");
+            System.out.println("\nԸնտրել հեղինակի անուն");
+            System.out.println("Հետ գնալ(մուտքագրել 0)\n");
             int answer = getScanner();
             int count = 0;
             if (answer == 0) {
@@ -216,7 +259,6 @@ public class Shop {
                     }
                 }
                 askForBook(authors);
-
 
 
             }
